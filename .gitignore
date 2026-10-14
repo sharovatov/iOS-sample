@@ -1,0 +1,13 @@
+# Reproducible Xcode build products and intermediate files
+/build/
+/DerivedData/
+
+# Generated test result bundles
+*.xcresult/
+
+# Personal Xcode state; keep the project and shared schemes
+xcuserdata/
+*.xcuserstate
+
+# Finder metadata
+.DS_Store
