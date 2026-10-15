@@ -43,14 +43,45 @@ xcrun simctl launch "$SIMULATOR_ID" org.example.iOSSample
 
 ## Tests
 
-After building, select an available iPhone UUID (the run script prints the one it uses) and run:
+Build with `bash build.sh`, then run the tests:
+
+```sh
+bash test.sh
+```
+
+The script runs `SimpleNoteTests` first, then `SimpleNoteUITests` only if the unit test run succeeds. A failing unit test or runner error stops the script before any UI tests start. It selects and boots an iPhone simulator using the same rules as `run.sh`, and works from any working directory. An optional UUID or exported `SIMULATOR_ID` selects a particular simulator; the command-line UUID takes precedence:
+
+```sh
+bash test.sh YOUR_SIMULATOR_UUID
+```
+
+Tests use the existing build products, so rerun `bash build.sh` after changing app or test code.
+
+Successful output groups tests by category, followed by `done`:
+
+```text
+Unit tests
+  NoteModelTests.testEditingDraftLeavesSavedNoteUnchanged - success
+
+UI tests
+  NotePersistenceTests.testSavedNoteSurvivesProcessRelaunch - success
+
+done
+```
+
+Full simulator boot and XCTest output is saved to `build/test.log`, replaced on each run. Failed and skipped tests are labeled accordingly. A failed test or test run exits with a nonzero status and does not print `done`.
+
+To run only unit tests directly, select an available iPhone UUID and run:
 
 ```sh
 SIMULATOR_ID='YOUR_SIMULATOR_UUID'
 xcodebuild test-without-building -xctestrun SimpleNote.xctestrun \
   -destination "platform=iOS Simulator,id=$SIMULATOR_ID,arch=arm64" \
+  -only-testing:SimpleNoteTests \
   -parallel-testing-enabled NO
 ```
+
+Replace `SimpleNoteTests` with `SimpleNoteUITests` to run only UI tests.
 
 Set `SIMULATOR_ID` in the same shell or test script as the command that uses it. Variables assigned inside `bash build.sh` do not carry into a later `bash run.sh` or another script.
 
