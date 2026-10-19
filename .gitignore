@@ -11,3 +11,7 @@ xcuserdata/
 
 # Finder metadata
 .DS_Store
+
+# Tiden local state (test inventory, drafts, push ledgers); the repo binding stays visible
+.tiden/*
+!.tiden/config.json
