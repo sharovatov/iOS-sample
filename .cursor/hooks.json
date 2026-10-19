@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "sessionEnd": [
+      {
+        "command": "command -v tiden >/dev/null 2>&1 && tiden intent capture --agent cursor --source native-hook || true"
+      }
+    ]
+  },
+  "version": 1
+}
